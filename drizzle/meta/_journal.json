@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1788360751638,
+      "tag": "0000_tiny_kronos",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788362098955,
+      "tag": "0001_wet_betty_ross",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788362869975,
+      "tag": "0002_cynical_thunderbolts",
+      "breakpoints": true
+    }
+  ]
+}
