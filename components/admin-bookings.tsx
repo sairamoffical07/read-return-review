@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { BookMinus, Download, KeyRound, MessageCircle, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -84,7 +85,7 @@ export function AdminBookings() {
     finally { setRemoving(null); }
   }
 
-  if (!unlocked) return <main className="admin-login"><section><span className="admin-logo">ENLIT</span><KeyRound /><p className="eyebrow">ORGANIZER DESK</p><h1>Open the<br />booking list.</h1><form onSubmit={unlock}><Input value={key} onChange={(event) => setKey(event.target.value)} type="password" placeholder="Organizer access code" aria-label="Organizer access code" required /><Button type="submit" disabled={loading}>{loading ? "Opening…" : "Open registrations"}</Button></form>{error && <p className="form-error">{error}</p>}<a href="/">← Back to the bookshelf</a></section></main>;
+  if (!unlocked) return <main className="admin-login"><section><span className="admin-logo">ENLIT</span><KeyRound /><p className="eyebrow">ORGANIZER DESK</p><h1>Open the<br />booking list.</h1><form onSubmit={unlock}><Input value={key} onChange={(event) => setKey(event.target.value)} type="password" placeholder="Organizer access code" aria-label="Organizer access code" required /><Button type="submit" disabled={loading}>{loading ? "Opening…" : "Open registrations"}</Button></form>{error && <p className="form-error">{error}</p>}<Link href="/">← Back to the bookshelf</Link></section></main>;
 
   return <main className="admin-page">
     <header><div><p className="eyebrow">ENLIT · ORGANIZER DESK</p><h1>Book registrations</h1></div><div><span>{rows.length} booked</span><Button onClick={exportCsv} disabled={!rows.length}><Download /> Download CSV</Button></div></header>
@@ -95,6 +96,6 @@ export function AdminBookings() {
 
     {error && <p className="form-error admin-error">{error}</p>}
     {rows.length ? <div className="admin-table-wrap"><table><thead><tr><th>Reader</th><th>Book</th><th>College details</th><th>Contact</th><th>Return by</th><th>Actions</th></tr></thead><tbody>{rows.map((row) => { const message = encodeURIComponent(`Hi ${row.name}! Your ENLIT booking is confirmed 📚\n\nBook: ${row.bookTitle}\nBooking ID: ${row.code}\nReturn by: ${row.dueDate}\n\nWe'll contact you with the collection details. Happy reading!\n— ENLIT`); return <tr key={row.id}><td><strong>{row.name}</strong><small>{row.code}</small></td><td>{row.bookTitle}</td><td><strong>{row.registerNumber}</strong><small>{row.year} · {row.department}</small></td><td><a href={`tel:+91${row.phone}`}>+91 {row.phone}</a><small>{row.instagram || "No Instagram ID"}</small></td><td>{row.dueDate}</td><td><div className="admin-actions"><a className="confirm-link" href={`https://wa.me/91${row.phone}?text=${message}`} target="_blank" rel="noreferrer"><MessageCircle /> WhatsApp</a><AlertDialog><AlertDialogTrigger asChild><Button variant="outline" className="cancel-trigger"><Trash2 /> Cancel</Button></AlertDialogTrigger><AlertDialogContent className="cancel-dialog"><AlertDialogHeader><AlertDialogTitle>Cancel this booking?</AlertDialogTitle><AlertDialogDescription>{row.name}’s reservation for “{row.bookTitle}” will be removed. The book will immediately become available for another student.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Keep booking</AlertDialogCancel><AlertDialogAction variant="destructive" onClick={() => cancelBooking(row.id)} disabled={cancelling === row.id}>{cancelling === row.id ? "Cancelling…" : "Cancel booking"}</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog></div></td></tr>; })}</tbody></table></div> : <div className="empty-state">No registrations yet. Share the student site and the first booking will appear here.</div>}
-    <a className="admin-back" href="/">← View student site</a>
+    <Link className="admin-back" href="/">← View student site</Link>
   </main>;
 }
